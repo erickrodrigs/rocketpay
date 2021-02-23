@@ -1,0 +1,24 @@
+version: "3.7"
+
+services:
+  app:
+    build: .
+    container_name: rocketpay_app
+    entrypoint: ./entrypoint.sh
+    ports:
+      - 4000:4000
+    volumes:
+      - ./:/usr/src/app
+    depends_on:
+      - db
+
+  db:
+    image: postgres:9.4
+    container_name: rocketpay_db
+    tty: true
+    restart: always
+    volumes:
+      - .dbdata:/var/lib/postgresql/dbdata
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
